@@ -6,16 +6,18 @@ response = requests.get("https://news.ycombinator.com/")
 yc_news = response.text
 soup = BeautifulSoup(yc_news, 'html.parser')
 
+
+
+#traverses the tree and finds the span -> titleline
 articles = soup.find_all(name="span", class_="titleline")
 article_texts = []
 links = []
 
 for article in articles:
-    text = article.getText()
+    article_tag = soup.find(name="a", className_="titleline")
+    text = article.get_text()
     article_texts.append(text)
-    for link in soup.find("a"):
-        print(link.get("href"))
-
-article_upvote = [score.getText() for score in soup.find_all(name= "span", class_="score")]
-
-print(article_texts[0])
+    link = article_tag.get("href")
+    links.append(link)
+    print(article_texts)
+    print(links)
